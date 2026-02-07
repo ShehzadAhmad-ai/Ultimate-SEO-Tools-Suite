@@ -1,0 +1,209 @@
+<!-- ULTIMATE SEO TOOLS SUITE -->
+<div style="max-width:900px;margin:30px auto;font-family:Arial,sans-serif;">
+  <h2 style="text-align:center;color:#222;margin-bottom:30px;">Advanced SEO Tools</h2>
+
+  <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;">
+
+    <!-- IMAGE ALT CHECKER -->
+    <div style="flex:1 1 400px;background:#fff;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1);padding:20px;">
+      <h3 style="text-align:center;color:#673AB7;">Image Alt Checker</h3>
+      <textarea id="imgHtmlInput" placeholder="Paste HTML here..." style="width:100%;padding:10px;height:120px;margin:10px 0;border:1px solid #ccc;border-radius:8px;"></textarea>
+      <button onclick="checkImageAlts()" style="width:100%;padding:10px;background:#673AB7;color:white;border:none;border-radius:8px;cursor:pointer;">Check Alts</button>
+      <div id="imgAltResult" style="margin-top:10px;padding:10px;background:#f9f9f9;border-radius:8px;"></div>
+      <button onclick="copyResult('imgAltResult')" style="margin-top:5px;width:100%;padding:8px;background:#9C27B0;color:white;border:none;border-radius:8px;cursor:pointer;">Copy Result</button>
+    </div>
+
+    <!-- LINK ANALYZER -->
+    <div style="flex:1 1 400px;background:#fff;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1);padding:20px;">
+      <h3 style="text-align:center;color:#009688;">Link Analyzer</h3>
+      <textarea id="linkHtmlInput" placeholder="Paste HTML here..." style="width:100%;padding:10px;height:120px;margin:10px 0;border:1px solid #ccc;border-radius:8px;"></textarea>
+      <input id="domainInput" type="text" placeholder="Your domain (example.com)" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:8px;">
+      <button onclick="countLinks()" style="width:100%;padding:10px;background:#009688;color:white;border:none;border-radius:8px;cursor:pointer;">Analyze Links</button>
+      <div id="linkResult" style="margin-top:10px;padding:10px;background:#f9f9f9;border-radius:8px;"></div>
+      <button onclick="copyResult('linkResult')" style="margin-top:5px;width:100%;padding:8px;background:#00796B;color:white;border:none;border-radius:8px;cursor:pointer;">Copy Result</button>
+    </div>
+
+    <!-- CONTENT ANALYZER -->
+    <div style="flex:1 1 400px;background:#fff;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1);padding:20px;">
+      <h3 style="text-align:center;color:#FF5722;">Content Analyzer</h3>
+      <textarea id="textCountInput" placeholder="Paste text here..." style="width:100%;padding:10px;height:120px;margin:10px 0;border:1px solid #ccc;border-radius:8px;"></textarea>
+      <button onclick="countWordsChars()" style="width:100%;padding:10px;background:#FF5722;color:white;border:none;border-radius:8px;cursor:pointer;">Analyze</button>
+      <div id="textCountResult" style="margin-top:10px;padding:10px;background:#f9f9f9;border-radius:8px;"></div>
+      <button onclick="copyResult('textCountResult')" style="margin-top:5px;width:100%;padding:8px;background:#E64A19;color:white;border:none;border-radius:8px;cursor:pointer;">Copy Result</button>
+    </div>
+
+    <!-- KEYWORD OPTIMIZER -->
+    <div style="flex:1 1 400px;background:#fff;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1);padding:20px;">
+      <h3 style="text-align:center;color:#3F51B5;">Keyword Optimizer</h3>
+      <textarea id="keywordFreqText" placeholder="Paste text here..." style="width:100%;padding:10px;height:100px;margin:10px 0;border:1px solid #ccc;border-radius:8px;"></textarea>
+      <input id="keywordInput" type="text" placeholder="Target keyword" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ccc;border-radius:8px;">
+      <button onclick="keywordFrequency()" style="width:100%;padding:10px;background:#3F51B5;color:white;border:none;border-radius:8px;cursor:pointer;">Check Density</button>
+      <div id="keywordResult" style="margin-top:10px;padding:10px;background:#f9f9f9;border-radius:8px;"></div>
+      <button onclick="copyResult('keywordResult')" style="margin-top:5px;width:100%;padding:8px;background:#303F9F;color:white;border:none;border-radius:8px;cursor:pointer;">Copy Result</button>
+    </div>
+
+    <!-- HEADING VALIDATOR -->
+    <div style="flex:1 1 400px;background:#fff;border-radius:15px;box-shadow:0 5px 15px rgba(0,0,0,0.1);padding:20px;">
+      <h3 style="text-align:center;color:#FF9800;">Heading Validator</h3>
+      <textarea id="headingHtmlInput" placeholder="Paste HTML here..." style="width:100%;padding:10px;height:120px;margin:10px 0;border:1px solid #ccc;border-radius:8px;"></textarea>
+      <button onclick="validateHeadings()" style="width:100%;padding:10px;background:#FF9800;color:white;border:none;border-radius:8px;cursor:pointer;">Validate Structure</button>
+      <div id="headingResult" style="margin-top:10px;padding:10px;background:#f9f9f9;border-radius:8px;"></div>
+      <button onclick="copyResult('headingResult')" style="margin-top:5px;width:100%;padding:8px;background:#F57C00;color:white;border:none;border-radius:8px;cursor:pointer;">Copy Result</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // COPY FUNCTION
+  function copyResult(id){
+    let text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Copied to clipboard!");
+    });
+  }
+
+  // IMAGE ALT CHECKER (Detects missing/empty alts)
+  function checkImageAlts(){
+    let html = document.getElementById('imgHtmlInput').value;
+    if(!html) { 
+      document.getElementById('imgAltResult').innerHTML = "<span style='color:red;'>Please paste HTML content</span>";
+      return; 
+    }
+    
+    let imgs = html.match(/<img[^>]*>/gi) || [];
+    let missingAlt = imgs.filter(img => !/alt\s*=\s*['"][^'"]*['"]/i.test(img));
+    let emptyAlt = imgs.filter(img => /alt\s*=\s*['"]\s*['"]/i.test(img));
+    
+    let output = `
+      <b>Total Images:</b> ${imgs.length}<br>
+      <b style="color:${missingAlt.length ? 'red' : 'green'};">Missing Alt:</b> ${missingAlt.length}<br>
+      <b style="color:${emptyAlt.length ? 'orange' : 'green'};">Empty Alt (""):</b> ${emptyAlt.length}<br><br>
+      ${missingAlt.length ? "⚠️ Add descriptive alt text for accessibility & SEO" : "✅ Good alt text coverage"}
+    `;
+    
+    document.getElementById('imgAltResult').innerHTML = output;
+  }
+
+  // LINK ANALYZER (Internal/External with domain detection)
+  function countLinks(){
+    let html = document.getElementById('linkHtmlInput').value;
+    let domain = document.getElementById('domainInput').value.trim();
+    if(!html) { 
+      document.getElementById('linkResult').innerHTML = "<span style='color:red;'>Please paste HTML content</span>";
+      return; 
+    }
+    
+    let links = html.match(/<a\s[^>]*href\s*=\s*['"]([^'"]+)['"][^>]*>/gi) || [];
+    let internal = 0;
+    let external = 0;
+    let anchors = 0;
+    
+    links.forEach(link => {
+      let href = link.match(/href\s*=\s*['"]([^'"]+)['"]/i)[1];
+      if(href.startsWith('#') || href === 'javascript:void(0)') {
+        anchors++;
+      } else if(
+        href.startsWith('/') || 
+        href.startsWith('./') || 
+        (domain && href.includes(domain))
+      ) {
+        internal++;
+      } else {
+        external++;
+      }
+    });
+    
+    document.getElementById('linkResult').innerHTML = `
+      <b>Total Links:</b> ${links.length}<br>
+      <b style="color:#009688;">Internal:</b> ${internal}<br>
+      <b style="color:#FF5722;">External:</b> ${external}<br>
+      <b style="color:#9C27B0;">Anchors (#):</b> ${anchors}<br><br>
+      ${external > internal ? "⚠️ Balance internal/external links" : "✅ Good link distribution"}
+    `;
+  }
+
+  // CONTENT ANALYZER (Words, chars, readability)
+  function countWordsChars(){
+    let text = document.getElementById('textCountInput').value.trim();
+    if(!text) { 
+      document.getElementById('textCountResult').innerHTML = "<span style='color:red;'>Please enter text</span>";
+      return; 
+    }
+    
+    // Word count (ignores multiple spaces)
+    let words = text.split(/\s+/).filter(w => w.length > 0).length;
+    
+    // Character counts
+    let charsNoSpace = text.replace(/\s/g, '').length;
+    let charsWithSpace = text.length;
+    
+    // Readability (Flesch-Kincaid)
+    let sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length || 1;
+    let syllables = text.toLowerCase().replace(/[^a-z]/g, '').match(/[aeiouy]+/g)?.length || 1;
+    let readability = Math.max(0, Math.min(100, 
+      206.835 - 1.015 * (words/sentences) - 84.6 * (syllables/words)
+    )).toFixed(1);
+    
+    document.getElementById('textCountResult').innerHTML = `
+      <b>Words:</b> ${words}<br>
+      <b>Characters:</b> ${charsWithSpace} (${charsNoSpace} without spaces)<br>
+      <b>Avg. Word Length:</b> ${(charsNoSpace/words).toFixed(1)} letters<br>
+      <b>Readability Score:</b> ${readability}/100<br>
+      <i>${readability >= 80 ? "Easy (6th grade)" : readability >= 60 ? "Standard (8th-9th grade)" : "Difficult (College level)"}</i>
+    `;
+  }
+
+  // KEYWORD OPTIMIZER (Density + position analysis)
+  function keywordFrequency(){
+    let text = document.getElementById('keywordFreqText').value.toLowerCase();
+    let keyword = document.getElementById('keywordInput').value.toLowerCase().trim();
+    if(!text || !keyword) { 
+      document.getElementById('keywordResult').innerHTML = "<span style='color:red;'>Enter both text and keyword</span>";
+      return; 
+    }
+    
+    // Exact match count
+    let matches = (text.match(new RegExp(`\\b${keyword}\\b`, 'gi')) || []).length;
+    let totalWords = text.split(/\s+/).filter(w => w.length > 0).length;
+    let density = ((matches / totalWords) * 100).toFixed(2);
+    
+    // Position analysis
+    let firstPos = text.indexOf(keyword);
+    let firstPosPercent = ((firstPos / text.length) * 100).toFixed(1);
+    
+    document.getElementById('keywordResult').innerHTML = `
+      <b>Exact Matches:</b> ${matches}<br>
+      <b>Density:</b> ${density}% (ideal 1-3%)<br>
+      <b>First Appearance:</b> ${firstPosPercent}% into text<br><br>
+      ${density > 3 ? "⚠️ Lower keyword density" : density < 1 ? "⚠️ Increase keyword usage" : "✅ Optimal density"}
+    `;
+  }
+
+  // HEADING VALIDATOR (Hierarchy check)
+  function validateHeadings(){
+    let html = document.getElementById('headingHtmlInput').value.toLowerCase();
+    if(!html) { 
+      document.getElementById('headingResult').innerHTML = "<span style='color:red;'>Please paste HTML content</span>";
+      return; 
+    }
+    
+    // Count headings
+    let h1 = (html.match(/<h1[^>]*>/g) || []).length;
+    let h2 = (html.match(/<h2[^>]*>/g) || []).length;
+    let h3 = (html.match(/<h3[^>]*>/g) || []).length;
+    
+    // Hierarchy validation
+    let errors = [];
+    if(h1 === 0) errors.push("❌ Missing H1");
+    if(h1 > 1) errors.push("❌ Multiple H1s");
+    if(h2 > 0 && h1 === 0) errors.push("❌ H2 without H1");
+    if(h3 > 0 && h2 === 0) errors.push("❌ H3 without H2");
+    
+    document.getElementById('headingResult').innerHTML = `
+      <b>Headings Found:</b><br>
+      H1: ${h1} | H2: ${h2} | H3: ${h3}<br><br>
+      ${errors.length ? errors.join("<br>") : "✅ Valid heading structure"}
+    `;
+  }
+</script>
